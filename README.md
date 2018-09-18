@@ -2,6 +2,6 @@
 For Covenant University Enterprise Hackathon.  
 Don't forget to run composer update to include the vendor directory
 
-#Authors
+# Authors
 - Fanan Dala
 - Ndu Onyendochukwu

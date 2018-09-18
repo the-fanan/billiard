@@ -8,7 +8,7 @@ All tables contain `created_at` and `updated_at` columns.
 - dob
 - phone
 - status - enum [enabled,disabled,pending,deleted]
-- verification - enum [0,1]
+- email_verification - enum [0,1]
 ## user_attributes - holds meta data about user
 - id
 - user_id - references `id` on users table
@@ -22,8 +22,8 @@ All tables contain `created_at` and `updated_at` columns.
 - tag - unique id for item
 - problem
 - owner - references `id` on users table
-- due date
-- checked_id
+- due_date
+- checked_in
 - checked_out
 ## item_attributes
 - id
@@ -34,17 +34,17 @@ All tables contain `created_at` and `updated_at` columns.
 - id
 - item_id - references `id` on items table
 - technician
-- status - enum [fixed, pending]
 - reviewer
 - technician_fix_confirmation
 - reviewer_fix_confirmation
-## actoin_trails - tracks actions performed on app to increase accountability on items use
+- status - enum [fixed, pending]
+## action_trails - tracks actions performed on app to increase accountability on items use
 - id
 - doer - references `id` on users table
 - action - (related to the permissions)
 - item_id - references `id` on users table ,  nullable
 - receiver - references `id` on users table, nullable
-## payments
+## payments - would be left alon for now
 - id
 - item_id
 - subscription_id - nullable
