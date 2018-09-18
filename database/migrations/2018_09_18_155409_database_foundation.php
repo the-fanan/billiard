@@ -13,6 +13,17 @@ class DatabaseFoundation extends Migration
      */
     public function up()
     {
+        Schema::create('administrators', function (Blueprint $table) {
+            $table->increments('id');
+			$table->string('fullname');
+			$table->string('email')->unique();
+            $table->string('password');
+            $table->date('dob')->nullable();
+            $table->string('phone', 50)->nullable();
+            $table->enum('status', ['enabled', 'disabled', 'pending', 'deleted'])->default('pending');
+            $table->rememberToken();
+            $table->timestamps();
+        });
         //
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
@@ -21,8 +32,9 @@ class DatabaseFoundation extends Migration
             $table->string('password', 100);
             $table->date('dob')->nullable();
             $table->string('phone', 50)->nullable();
-            $table->enum('status', ['enabled', 'disabled', 'pending'])->default('pending');
+            $table->enum('status', ['enabled', 'disabled', 'pending', 'deleted'])->default('pending');
             $table->enum('email_verification', [0,1])->default(0);
+            $table->rememberToken();
             $table->timestamps();
         });
 
