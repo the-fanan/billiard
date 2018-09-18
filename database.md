@@ -1,4 +1,4 @@
-#This contains documentation on the database tables
+# This contains documentation on the database tables
 All tables contain `created_at` and `updated_at` columns.
 ### users - holds frequently requested and constant data about user
 - id
