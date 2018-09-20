@@ -14,3 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::group(['namespace' => 'Auth'],function(){
+    Route::get('registration/','RegisterController@index')->name('registration.terms.accept');
+});
