@@ -79,6 +79,13 @@ class user extends Authenticatable
 
 
     /** For User acting as Technician **/
-
+    public function technicianRepairRequest()
+    {
+        $this->hasMany('billiard\Models\repair_request','technician');
+    }
     /** For user acting as Reviewer **/
+    public function reviewerRepairRequest()
+    {
+        $this->hasMany('billiard\Models\repair_request','reviewer');
+    }
 }
