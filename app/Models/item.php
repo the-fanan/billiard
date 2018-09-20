@@ -23,6 +23,11 @@ class item extends Model
         $this->hasOne('billiard\Models\repair_request');
     }
 
+    public function customer()
+    {
+        $this->belongsTo('billiard\Models\user');
+    }
+
     /**
     ******* for functions ***************
     **/
