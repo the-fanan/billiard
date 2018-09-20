@@ -14,7 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::group(['namespace' => 'Auth'],function(){
-    Route::get('registration/','RegisterController@index')->name('registration.index');
-    Route::post('registration/','RegisterController@register')->name('registration.register');
+    Route::get('registration','RegisterController@index')->name('registration.index');
+    Route::post('registration','RegisterController@register')->name('registration.register');
 });

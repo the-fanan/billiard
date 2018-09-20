@@ -9,27 +9,11 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use billiard\Models\user;
 use billiard\Models\user_attribute;
 
+use Carbon\Carbon;
+use Cookie;
+
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
-    use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -38,7 +22,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+
     }
 
     public function index()
@@ -46,9 +30,44 @@ class RegisterController extends Controller
         return view('frontend.registration.register');
     }
 
+
+    /**
+     * Register a new customer
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function register()
     {
-        return "";
+        $rules = [
+            'fullname' => 'required|max:100',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|confirmed|min:6',
+            'role' => 'required|max:30|alpha',
+        ];
+
+        $validator = Validator::make($this->request->all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect('/')->withErrors($validator->errors())->withInput($this->request->input());
+        }
+
+        $newUser = new user;
+
+        $newUserData = $request->only("fullname","email","password");
+
+        $newUser->fill($newUserData);
+        $newUser->save();
+        $user->assignRole($this->request->role);
+        //add default attributes
+        user_attribute::insert([
+            [
+                'user_id' => $newUser->id,
+                'attribute' => Constants::PROFILE_IMAGE,
+                'value' => Constants::DEFAULT_PROFILE_IMAGE,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
+        ]);
+        return  redirect()->to('/user/dashboard/');
     }
 
 }

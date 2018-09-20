@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use billiard\Models\user;
 use billiard\Models\user_attribute;
 use billiard\Constants\Constants;
+use billiard\Http\Controllers\Auth\RegisterController;
 
 class userTest extends TestCase
 {
@@ -18,4 +19,6 @@ class userTest extends TestCase
         $userDetails = $user->getUserDetails();
         $this->assertEquals($userDetails[Constants::PROFILE_IMAGE], Constants::DEFAULT_PROFILE_IMAGE);
     }
+
+    
 }
