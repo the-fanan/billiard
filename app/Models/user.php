@@ -6,10 +6,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-
+use billiard\Constants\Constants;
+use billiard\Traits\Helper as BilliardHelpers;
 class user extends Authenticatable
 {
-    use Notifiable,HasRoles;
+    use Notifiable,HasRoles,BilliardHelpers;
 
     protected $guard_name = 'web';
 
@@ -47,7 +48,7 @@ class user extends Authenticatable
    {
        $details = [];
        foreach ($this->user_attributes as $user_attribute) {
-           $details[$user_attribute->attribute] = $user_attribute->value;
+           $details[$user_attribute->attribute] = $this->decodeIfJson($user_attribute->value);
        }
        return $details;
    }

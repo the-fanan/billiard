@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use billiard\Models\user;
 use billiard\Models\user_attribute;
+use billiard\Constants\Constants;
 
 class userTest extends TestCase
 {
@@ -15,6 +16,6 @@ class userTest extends TestCase
     {
         $user = user::find(1);
         $userDetails = $user->getUserDetails();
-        $this->assertEquals($userDetails['profile_image'], 'default3.jpg');
+        $this->assertEquals($userDetails[Constants::PROFILE_IMAGE], 'default3.jpg');
     }
 }
