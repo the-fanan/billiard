@@ -20,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         View::composer('*',function($view){
+            /**
+            * use constans and responsemessage as $constants::CONSTANT_NAME in view
+            **/
             $view->with('auth', Auth::user())->with('constants', new Constants)->with('responseMessages', new ResponseMessages);
         });
     }
