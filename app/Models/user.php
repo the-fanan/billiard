@@ -10,5 +10,56 @@ use Spatie\Permission\Traits\HasRoles;
 class user extends Authenticatable
 {
     use Notifiable,HasRoles;
-    //
+
+    protected $guard_name = 'web';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    /** General user relationships and functions **/
+    public function setEmailAttribute($value) {
+      $this->attributes['email'] = strtolower($value);
+   }
+
+   public function setPasswordAttribute($value) {
+       $this->attributes['password'] = bcrypt($value);
+   }
+
+   public function getName()
+   {
+       return title_case($this->fullname);
+   }
+
+   public function getUserDetails()
+   {
+       $details = [];
+       foreach ($this->user_attributes as $user_attribute) {
+           $details[$user_attribute->attribute] = $user_attribute->value;
+       }
+       return $details;
+   }
+
+   public function user_attributes()
+   {
+       return $this->hasMany('billiard\Models\user_attribute');
+   }
+    /** For User acting as Customer **/
+
+
+    /** For User acting as Technician **/
+
+    /** For user acting as Reviewer **/
 }
