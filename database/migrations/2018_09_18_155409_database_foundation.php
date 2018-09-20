@@ -65,13 +65,13 @@ class DatabaseFoundation extends Migration
             $table->string('model');
             $table->string('tag');
             $table->string('problem');
-            $table->integer('owner')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->date('due_date');
             $table->dateTime('checked_in');
             $table->dateTime('checked_out');
             $table->timestamps();
             //foreign keys
-            $table->foreign('owner')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('item_attributes', function (Blueprint $table) {
