@@ -3,6 +3,11 @@
 namespace billiard\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
+use billiard\Constants\Constants;
+use billiard\Constants\Responses as ResponseMessages;
+use Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        View::composer('*',function($view){
+            $view->with('auth', Auth::user())->with('constants', new Constants)->with('responseMessages', new ResponseMessages);
+        });
     }
 
     /**
