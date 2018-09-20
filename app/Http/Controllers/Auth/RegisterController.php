@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use billiard\Models\user;
+use billiard\Models\user_attribute;
 
 class RegisterController extends Controller
 {

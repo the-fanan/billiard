@@ -8,4 +8,5 @@ class Constants
 
     /** user attrobutes **/
     const PROFILE_IMAGE = 'profile_image';
+    const DEFAULT_PROFILE_IMAGE = 'images/u.png'
 }

@@ -42,7 +42,7 @@ class DatabaseFoundation extends Migration
             $table->string('password', 100);
             $table->date('dob')->nullable();
             $table->string('phone', 50)->nullable();
-            $table->enum('status', ['enabled', 'disabled', 'pending', 'deleted'])->default('pending');
+            $table->enum('status', ['enabled', 'disabled', 'pending', 'deleted'])->default('enabled');
             $table->enum('email_verification', [0,1])->default(0);
             $table->rememberToken();
             $table->timestamps();
