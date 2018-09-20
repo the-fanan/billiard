@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use billiard\Constants\Constants;
 use billiard\Traits\Helper as BilliardHelpers;
+
 class user extends Authenticatable
 {
     use Notifiable,HasRoles,BilliardHelpers;

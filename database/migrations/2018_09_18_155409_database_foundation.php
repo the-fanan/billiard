@@ -24,6 +24,16 @@ class DatabaseFoundation extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('administrator_attributes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('administrator_id')->unsigned();
+            $table->string('attribute', 50);
+            $table->string('value', 2500);
+            $table->timestamps();
+            //foreign keys
+            $table->foreign('administrator_id')->references('id')->on('administrators')->onDelete('cascade')->onUpdate('cascade');
+        });
         //
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
@@ -109,6 +119,7 @@ class DatabaseFoundation extends Migration
     public function down()
     {
         //
+        Schema::drop('administrators');
         Schema::drop('users');
         Schema::drop('user_attributes');
         Schema::drop('items');
