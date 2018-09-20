@@ -21,4 +21,32 @@ class administrator extends Authenticatable
      * @var array
      */
     protected $guarded = ['id'];
+
+    /** General administrator relationships and functions **/
+    public function setEmailAttribute($value) {
+      $this->attributes['email'] = strtolower($value);
+   }
+
+   public function setPasswordAttribute($value) {
+       $this->attributes['password'] = bcrypt($value);
+   }
+
+   public function getName()
+   {
+       return title_case($this->fullname);
+   }
+
+   public function getAdministratorDetails()
+   {
+       $details = [];
+       foreach ($this->administrator_attributes as $administrator_attribute) {
+           $details[$administrator_attribute->attribute] = $this->decodeIfJson($administrator_attribute->value);
+       }
+       return $details;
+   }
+
+   public function administrator_attributes()
+   {
+       return $this->hasMany('billiard\Models\administrator_attribute');
+   }
 }

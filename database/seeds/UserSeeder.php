@@ -14,5 +14,8 @@ class UserSeeder extends Seeder
         //
         $user1 = billiard\Models\user::create(['fullname' => 'John Doe', 'email' => 'john123@yahoo.com', 'password' => 'john123']);
         $user1->assignRole('customer');
+        
+        $user2 = billiard\Models\administrator::create(['fullname' => 'John Mark', 'email' => 'johnmark123@yahoo.com', 'password' => 'john123']);
+        $user2->assignRole('Super Admin');
     }
 }

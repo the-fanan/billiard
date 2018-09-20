@@ -24,6 +24,16 @@ class DatabaseFoundation extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('administrator_attributes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('administrator_id')->unsigned();
+            $table->string('attribute', 50);
+            $table->string('value', 2500);
+            $table->timestamps();
+            //foreign keys
+            $table->foreign('administrator_id')->references('id')->on('administrators')->onDelete('cascade')->onUpdate('cascade');
+        });
         //
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
@@ -99,6 +109,23 @@ class DatabaseFoundation extends Migration
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('receiver')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
         });
+
+        /** The following tables act as pivots **/
+        Schema::create('admin_technicians', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('admin_id');
+            $table->integer('technician_id');
+            $table->enum('request',['1','0'])->default('0');
+            $table->timestamps();
+        });
+
+        Schema::create('admin_reviewers', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('admin_id');
+            $table->integer('reviewer_id');
+            $table->enum('request',['1','0'])->default('0');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -109,6 +136,7 @@ class DatabaseFoundation extends Migration
     public function down()
     {
         //
+        Schema::drop('administrators');
         Schema::drop('users');
         Schema::drop('user_attributes');
         Schema::drop('items');
