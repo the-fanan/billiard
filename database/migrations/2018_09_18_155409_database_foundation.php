@@ -109,6 +109,23 @@ class DatabaseFoundation extends Migration
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('receiver')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
         });
+
+        /** The following tables act as pivots **/
+        Schema::create('admin_technicians', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('admin_id');
+            $table->integer('technician_id');
+            $table->enum('request',['1','0'])->default('0');
+            $table->timestamps();
+        });
+
+        Schema::create('admin_reviewers', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('admin_id');
+            $table->integer('reviewer_id');
+            $table->enum('request',['1','0'])->default('0');
+            $table->timestamps();
+        });
     }
 
     /**
