@@ -31,6 +31,9 @@ class user extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+    ******* for mutators ***************
+    **/
     /** General user relationships and functions **/
     public function setEmailAttribute($value) {
       $this->attributes['email'] = strtolower($value);
@@ -40,6 +43,23 @@ class user extends Authenticatable
        $this->attributes['password'] = bcrypt($value);
    }
 
+   /**
+   ******* for relations ***************
+   **/
+
+   public function user_attributes()
+   {
+       return $this->hasMany('billiard\Models\user_attribute');
+   }
+
+   public function items()
+   {
+       $this->hasMany('billiard\Models\item');
+   }
+
+   /**
+   ******* for functions ***************
+   **/
    public function getName()
    {
        return title_case($this->fullname);
@@ -54,10 +74,7 @@ class user extends Authenticatable
        return $details;
    }
 
-   public function user_attributes()
-   {
-       return $this->hasMany('billiard\Models\user_attribute');
-   }
+
     /** For User acting as Customer **/
 
 
