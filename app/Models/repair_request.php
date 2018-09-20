@@ -4,7 +4,7 @@ namespace billiard\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class repair_requests extends Model
+class repair_request extends Model
 {
     //
     public function technician()

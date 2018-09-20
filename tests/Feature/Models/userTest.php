@@ -16,6 +16,6 @@ class userTest extends TestCase
     {
         $user = user::find(1);
         $userDetails = $user->getUserDetails();
-        $this->assertEquals($userDetails[Constants::PROFILE_IMAGE], 'default3.jpg');
+        $this->assertEquals($userDetails[Constants::PROFILE_IMAGE], Constants::DEFAULT_PROFILE_IMAGE);
     }
 }
