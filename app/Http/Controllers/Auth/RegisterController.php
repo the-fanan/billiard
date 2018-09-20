@@ -2,11 +2,11 @@
 
 namespace billiard\Http\Controllers\Auth;
 
-use billiard\User;
 use billiard\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use billiard\Models\user;
 
 class RegisterController extends Controller
 {
@@ -43,6 +43,11 @@ class RegisterController extends Controller
     public function index()
     {
         return view('frontend.registration.register');
+    }
+
+    public function register()
+    {
+        return "";
     }
 
 }
