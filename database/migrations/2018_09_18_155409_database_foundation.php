@@ -126,6 +126,15 @@ class DatabaseFoundation extends Migration
             $table->enum('request',['1','0'])->default('0');
             $table->timestamps();
         });
+
+        Schema::create('dummy_datas', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('department');
+            $table->date('admission_year');
+            $table->date('graduation_year');
+            $table->timestamps();
+        });
     }
 
     /**
