@@ -78,7 +78,7 @@ class RegisterController extends Controller
                 'updated_at' => now()
             ]
         ]);
-
+        //send mail for account to be confirmed
         return  redirect()->to(route('admin.login.show'))->with('success','Your account has been created,please check your email to verify');;
     }
 

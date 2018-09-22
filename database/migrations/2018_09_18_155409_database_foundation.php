@@ -48,7 +48,7 @@ class DatabaseFoundation extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('fullname', 100);
-            $table->string('email', 100);
+            $table->string('email', 100)->unique();
             $table->integer('organisation_id')->unsigned();
             $table->string('password', 100);
             $table->date('dob')->nullable();

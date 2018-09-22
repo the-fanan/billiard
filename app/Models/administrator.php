@@ -45,9 +45,16 @@ class administrator extends Authenticatable
        }
        return $details;
    }
-
+   /**
+   ******* for relations ***************
+   **/
    public function administrator_attributes()
    {
        return $this->hasMany('billiard\Models\administrator_attribute');
+   }
+
+   public function organisation()
+   {
+       return $this->belongsTo('billiard\Models\organisation');
    }
 }

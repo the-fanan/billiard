@@ -22,6 +22,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['namespace' => 'Administrator', 'prefix' => 'backend/'],function(){
 
+    Route::group(['prefix' => 'technicians'], function(){
+        Route::get('add', 'AdministratorController@showAddTechnician')->name('admin.technician.add.show');
+        Route::post('add', 'AdministratorCOntroller@addTechnician')->name('admin.technician.add');
+    });
     //Login Processing
     Route::group(['namespace' => 'Auth','prefix' => 'auth'],function(){
         Route::get('backend-login', 'LoginController@showLoginForm')->name('admin.login.show');
