@@ -74,6 +74,47 @@ class AdministratorController extends Controller
         ],200);
     }
 
+    public function addReviewer(Request $request)
+    {
+        $rules = [
+            'fullname' => 'required|max:100',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|confirmed|min:6'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            $error = $this->validationMessagesToString($validator->errors());
+            return response()->json([
+                'error' => $error
+            ],200);
+        }
+
+        $user = new user;
+        $organisation = $this->admin->organisation();
+        $role = "reviewer";
+        $data = [
+            "fullname" => $request->fullname,
+            "email" => $request->email,
+            "password" => $request->password,
+            "organisation_id" => $organisation->id,
+            "user" => $user,
+            "role" => $role,
+
+        ];
+
+        $user = $this->saveUser($data);
+
+        //track action
+        action_trail::addAction(["action" => "add-reviewer", "admin" => $this->admin->id, "receiver" => $user->id]);
+
+        //send mail to user
+        //$user::mailto bla bla bla
+        return response()->json([
+            'message' => "Reviewer has been created"
+        ],200);
+    }
+
     /**
     *Private functions
     **/
