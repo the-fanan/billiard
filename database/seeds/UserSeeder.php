@@ -21,6 +21,10 @@ class UserSeeder extends Seeder
         user_attribute::create(['user_id' => $user1->id, 'attribute' => Constants::PROFILE_IMAGE, 'value' => Constants::DEFAULT_PROFILE_IMAGE]);
         $user1->assignRole('customer');
 
+        $user3 = user::create(['fullname' => 'John Tech', 'email' => 'johntech123@yahoo.com', 'password' => 'john123', 'organisation_id' => 1]);
+        user_attribute::create(['user_id' => $user1->id, 'attribute' => Constants::PROFILE_IMAGE, 'value' => Constants::DEFAULT_PROFILE_IMAGE]);
+        $user3->assignRole('technician');
+
         $user2 = administrator::create(['fullname' => 'John Mark', 'email' => 'johnmark123@yahoo.com', 'password' => 'john123', 'organisation_id' => 1]);
         administrator_attribute::create(['administrator_id' => $user2->id, 'attribute' => Constants::PROFILE_IMAGE, 'value' => Constants::DEFAULT_PROFILE_IMAGE]);
         $user2->assignRole('Admin');
