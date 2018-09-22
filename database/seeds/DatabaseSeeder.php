@@ -12,6 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(RolesAndPermission::class);
+        $this->call(OrganisationSeeder::class);
         $this->call(UserSeeder::class);
+
+        //factory(billiard\dummy_data::class, 50)->create();
     }
 }

@@ -13,16 +13,26 @@ class DatabaseFoundation extends Migration
      */
     public function up()
     {
+        Schema::create('organisations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('address')->nullable()->default('');
+            $table->timestamps();
+        });
+
         Schema::create('administrators', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('fullname');
 			$table->string('email')->unique();
+            $table->integer('organisation_id')->unsigned();
             $table->string('password');
             $table->date('dob')->nullable();
             $table->string('phone', 50)->nullable();
             $table->enum('status', ['enabled', 'disabled', 'pending', 'deleted'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
+            //foreign keys
+            $table->foreign('organisation_id')->references('id')->on('organisations')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('administrator_attributes', function (Blueprint $table) {
@@ -38,14 +48,17 @@ class DatabaseFoundation extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('fullname', 100);
-            $table->string('email', 100);
+            $table->string('email', 100)->unique();
+            $table->integer('organisation_id')->unsigned();
             $table->string('password', 100);
             $table->date('dob')->nullable();
             $table->string('phone', 50)->nullable();
-            $table->enum('status', ['enabled', 'disabled', 'pending', 'deleted'])->default('pending');
+            $table->enum('status', ['enabled', 'disabled', 'pending', 'deleted'])->default('enabled');
             $table->enum('email_verification', [0,1])->default(0);
             $table->rememberToken();
             $table->timestamps();
+            //foreign keys
+            $table->foreign('organisation_id')->references('id')->on('organisations')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('user_attributes', function (Blueprint $table) {
@@ -57,6 +70,7 @@ class DatabaseFoundation extends Migration
             //foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
+
 
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
@@ -101,13 +115,11 @@ class DatabaseFoundation extends Migration
         Schema::create('action_trails', function (Blueprint $table) {
             $table->increments('id');
             $table->string('action');
-            $table->integer('doer')->unsigned();
-            $table->integer('item_id')->unsigned();
-            $table->integer('receiver')->unsigned();
-            //foreign keys
-            $table->foreign('doer')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('receiver')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
+            $table->integer('doer')->unsigned()->nullable();
+            $table->integer('item_id')->unsigned()->nullable();
+            $table->integer('receiver')->unsigned()->nullable();
+            $table->timestamps();
+
         });
 
         /** The following tables act as pivots **/
@@ -124,6 +136,15 @@ class DatabaseFoundation extends Migration
             $table->integer('admin_id');
             $table->integer('reviewer_id');
             $table->enum('request',['1','0'])->default('0');
+            $table->timestamps();
+        });
+
+        Schema::create('dummy_datas', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('department');
+            $table->date('admission_year');
+            $table->date('graduation_year');
             $table->timestamps();
         });
     }

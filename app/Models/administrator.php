@@ -5,6 +5,7 @@ namespace billiard\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 use billiard\Constants\Constants;
 use billiard\Traits\Helper as BilliardHelpers;
@@ -28,7 +29,7 @@ class administrator extends Authenticatable
    }
 
    public function setPasswordAttribute($value) {
-       $this->attributes['password'] = bcrypt($value);
+       $this->attributes['password'] = Hash::make($value);
    }
 
    public function getName()
@@ -44,9 +45,16 @@ class administrator extends Authenticatable
        }
        return $details;
    }
-
+   /**
+   ******* for relations ***************
+   **/
    public function administrator_attributes()
    {
        return $this->hasMany('billiard\Models\administrator_attribute');
+   }
+
+   public function organisation()
+   {
+       return $this->belongsTo('billiard\Models\organisation');
    }
 }

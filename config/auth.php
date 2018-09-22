@@ -40,7 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'administrators'
+        ],
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -67,9 +70,12 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => billiard\User::class,
+            'model' => billiard\Models\user::class,
         ],
-
+        'administrators' => [
+            'driver' => 'eloquent',
+            'model' => billiard\Models\administrator::class,
+        ]
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -94,6 +100,11 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+        ],
+        'admins' => [
+            'provider' => 'administrators',
             'table' => 'password_resets',
             'expire' => 60,
         ],

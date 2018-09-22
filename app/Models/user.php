@@ -73,7 +73,7 @@ class user extends Authenticatable
        }
        return $details;
    }
-
+   
 
     /** For User acting as Customer **/
 
