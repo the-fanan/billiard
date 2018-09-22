@@ -10,6 +10,8 @@ use billiard\Models\user_attribute;
 use billiard\Constants\Constants;
 use billiard\Http\Controllers\Auth\RegisterController;
 use billiard\Http\Controllers\Administrator\AdministratorController;
+use billiard\Models\action_trail;
+
 class userTest extends TestCase
 {
     public $data = ["fullname" => "fanan dala", "email" =>"", "password" => "password", "role" => "customer", "organisation_id" => 1, "user" => ""];
@@ -27,7 +29,14 @@ class userTest extends TestCase
         $data["email"] =  str_random(3).".".str_random(3)."@".str_random(3).".com";
         $adminstratorController = new AdministratorController;
         $user = $adminstratorController->getSaveUser($data);
-        $this->assertDatabaseHas("users", ["fullname" => "fanan dala", "email" => "fanan.dala@yahoo.com"]);
+        $this->assertDatabaseHas("users", ["fullname" => "fanan dala", "email" => $data["email"]]);
+    }
+
+    public function testaddAction()
+    {
+        $data = ["action" => "kill", "doer" => 1];
+        $action = action_trail::addAction($data);
+        $this->assertDatabaseHas("action_trails",$data);
     }
 
 }

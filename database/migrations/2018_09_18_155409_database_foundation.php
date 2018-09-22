@@ -115,11 +115,14 @@ class DatabaseFoundation extends Migration
         Schema::create('action_trails', function (Blueprint $table) {
             $table->increments('id');
             $table->string('action');
-            $table->integer('doer')->unsigned();
-            $table->integer('item_id')->unsigned();
-            $table->integer('receiver')->unsigned();
+            $table->integer('doer')->unsigned()->nullable();
+            $table->integer('admin')->unsigned()->nullable();
+            $table->integer('item_id')->unsigned()->nullable();
+            $table->integer('receiver')->unsigned()->nullable();
+            $table->timestamps();
             //foreign keys
             $table->foreign('doer')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('admin')->references('id')->on('administrators')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('receiver')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
         });

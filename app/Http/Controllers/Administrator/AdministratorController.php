@@ -11,6 +11,7 @@ use billiard\Models\user_attribute;
 use billiard\Models\administrator;
 use billiard\Models\administrator_attribute;
 use billiard\Models\organisation;
+use billiard\Models\action_trail;
 use billiard\Constants\Constants;
 use billiard\Traits\Helper as BilliardHelpers;
 
@@ -62,6 +63,9 @@ class AdministratorController extends Controller
         ];
 
         $user = $this->saveUser($data);
+
+        //track action
+        action_trail::addAction(["action" => "add-technician", "admin" => $this->admin->id, "receiver" => $user->id]);
 
         //send mail to user
         //$user::mailto bla bla bla
