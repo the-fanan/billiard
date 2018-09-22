@@ -45,6 +45,27 @@ class LoginController extends Controller
         return Auth::guard('web');
     }
 
+    public function login(Request $request)
+    {
+        $rules = [
+            'email' => 'required|email|max:255',
+            'password' => 'required'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect(route('login'))->withErrors($validator->errors())->withInput($request->input());
+        }
+
+        $credentials = ['email' => $request->input('email'), 'password' => $request->input('password')];
+        if($this->guard()->attempt($credentials, $request->input('remember'))){
+            return redirect('/home');//should be dashboard for role
+        }else{
+            return back()->with('error', ResponseMessage::INVALID_LOGIN);
+        }
+    }
+
     public function logout() {
         $this->guard()->logout();
         return back()->with('success', ResponseMessage::GOODBYE);

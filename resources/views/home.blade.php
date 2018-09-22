@@ -9,7 +9,7 @@
 
                 <div class="card-body">
                     @include('frontend.includes.alert')
-                    {{ Auth::guard('admin')->user()->fullname }}
+    
                     You are logged in!
                 </div>
             </div>
