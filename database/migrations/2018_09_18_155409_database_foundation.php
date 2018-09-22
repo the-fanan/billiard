@@ -16,7 +16,7 @@ class DatabaseFoundation extends Migration
         Schema::create('organisations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('address');
+            $table->string('address')->nullable()->default('');
             $table->timestamps();
         });
 

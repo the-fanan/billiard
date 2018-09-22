@@ -24,5 +24,13 @@ class organisation extends Model
    /**
    ******* for relations ***************
    **/
-    
+    public function administrators()
+    {
+        $this->hasMany('billiard\Models\administrator');
+    }
+
+    public function users()
+    {
+        $this->hasMany('billiard\Models\users');
+    }
 }
