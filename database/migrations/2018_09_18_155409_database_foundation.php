@@ -13,16 +13,26 @@ class DatabaseFoundation extends Migration
      */
     public function up()
     {
+        Schema::create('organisations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('address');
+            $table->timestamps();
+        });
+
         Schema::create('administrators', function (Blueprint $table) {
             $table->increments('id');
 			$table->string('fullname');
 			$table->string('email')->unique();
+            $table->integer('organisation_id')->unsigned();
             $table->string('password');
             $table->date('dob')->nullable();
             $table->string('phone', 50)->nullable();
             $table->enum('status', ['enabled', 'disabled', 'pending', 'deleted'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
+            //foreign keys
+            $table->foreign('organisation_id')->references('id')->on('organisations')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('administrator_attributes', function (Blueprint $table) {
@@ -39,6 +49,7 @@ class DatabaseFoundation extends Migration
             $table->increments('id');
             $table->string('fullname', 100);
             $table->string('email', 100);
+            $table->integer('organisation_id')->unsigned();
             $table->string('password', 100);
             $table->date('dob')->nullable();
             $table->string('phone', 50)->nullable();
@@ -46,6 +57,8 @@ class DatabaseFoundation extends Migration
             $table->enum('email_verification', [0,1])->default(0);
             $table->rememberToken();
             $table->timestamps();
+            //foreign keys
+            $table->foreign('organisation_id')->references('id')->on('organisations')->onDelete('cascade')->onUpdate('cascade');
         });
 
         Schema::create('user_attributes', function (Blueprint $table) {
@@ -57,6 +70,7 @@ class DatabaseFoundation extends Migration
             //foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
+
 
         Schema::create('items', function (Blueprint $table) {
             $table->increments('id');
