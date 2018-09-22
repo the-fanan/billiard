@@ -14,6 +14,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesAndPermission::class);
         $this->call(OrganisationSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(ItemSeeder::class);
+        $this->call(RequestSeeder::class);
 
         //factory(billiard\dummy_data::class, 50)->create();
     }

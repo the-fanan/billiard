@@ -76,13 +76,13 @@ class DatabaseFoundation extends Migration
             $table->increments('id');
             $table->string('type');
             $table->string('brand');
-            $table->string('model');
+            $table->string('model')->nullable();
             $table->string('tag');
             $table->string('problem');
             $table->integer('user_id')->unsigned();
-            $table->date('due_date');
+            $table->date('due_date')->nullable();
             $table->dateTime('checked_in');
-            $table->dateTime('checked_out');
+            $table->dateTime('checked_out')->nullable();
             $table->timestamps();
             //foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
@@ -102,10 +102,11 @@ class DatabaseFoundation extends Migration
             $table->increments('id');
             $table->integer('item_id')->unsigned();
             $table->integer('technician')->unsigned();
-            $table->integer('reviewer')->unsigned();
+            $table->integer('reviewer')->unsigned()->nullable();
             $table->enum('technician_fix_confirmation', [0,1])->default(0);
             $table->enum('reviewer_fix_confirmation', [0,1])->default(0);
             $table->enum('status', ['fixed', 'pending'])->default('pending');
+            $table->timestamps();
             //foreign keys
             $table->foreign('item_id')->references('id')->on('items')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('technician')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
