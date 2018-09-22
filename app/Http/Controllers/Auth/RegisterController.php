@@ -34,7 +34,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('frontend.registration.register');
+        return view('frontend.auth.register');
     }
 
 
@@ -54,7 +54,7 @@ class RegisterController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return redirect('/register')->withErrors($validator->errors())->withInput($request->input());
+            return redirect(route('register'))->withErrors($validator->errors())->withInput($request->input());
         }
 
         //create organisation
@@ -78,7 +78,8 @@ class RegisterController extends Controller
                 'updated_at' => now()
             ]
         ]);
-        return  redirect()->to('/');
+
+        return  redirect()->to(route('admin.login.show'))->with('success','Your account has been created,please check your email to verify');;
     }
 
 }

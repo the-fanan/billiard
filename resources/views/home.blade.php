@@ -8,12 +8,8 @@
                 <div class="card-header">Dashboard</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
+                    @include('frontend.includes.alert')
+                    {{ Auth::guard('admin')->user()->fullname }}
                     You are logged in!
                 </div>
             </div>

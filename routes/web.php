@@ -19,3 +19,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['namespace' => 'Administrator', 'prefix' => 'backend/'],function(){
+
+    //Login Processing
+    Route::group(['namespace' => 'Auth','prefix' => 'auth'],function(){
+        Route::get('backend-login', 'LoginController@showLoginForm')->name('admin.login.show');
+        Route::post('backend-login', 'LoginController@login')->name('admin.login');
+        Route::get('/logout', 'LoginController@logout')->name('admin.logout');
+    });
+});

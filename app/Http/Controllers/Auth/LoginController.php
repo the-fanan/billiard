@@ -2,9 +2,13 @@
 
 namespace billiard\Http\Controllers\Auth;
 
-use billiard\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use billiard\Http\Controllers\Controller;
 use billiard\Constants\ResponseMessages as ResponseMessage;
+use Auth;
+use Validator;
+
 class LoginController extends Controller
 {
     /*
@@ -28,26 +32,21 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:web')->except('logout');
     }
 
     public function showLoginForm()
     {
-        return view('frontend.registration.login');
+        return view('frontend.auth.login');
     }
 
-    public function adminGaurd()
+    public function guard()
     {
-
-    }
-
-    public function webGaurd()
-    {
-
+        return Auth::guard('web');
     }
 
     public function logout() {
-        $this->logout();
+        $this->guard()->logout();
         return back()->with('success', ResponseMessage::GOODBYE);
     }
 }
