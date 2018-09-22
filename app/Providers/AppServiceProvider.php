@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use billiard\Constants\Constants;
-use billiard\Constants\Responses as ResponseMessages;
+use billiard\Constants\ResponseMessages as ResponseMessages;
 use Auth;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
             /**
             * use constants and responsemessage as $constants::CONSTANT_NAME in view
             **/
-            $view->with('authAdmin', Auth::user())->with('constants', new Constants)->with('responseMessages', new ResponseMessages);
+            $view->with('auth', Auth::user())->with('constants', new Constants)->with('responseMessages', new ResponseMessages);
         });
     }
 
