@@ -14,6 +14,7 @@ use billiard\Models\organisation;
 use billiard\Models\action_trail;
 use billiard\Constants\Constants;
 use billiard\Traits\Helper as BilliardHelpers;
+use Auth;
 
 class AdministratorController extends Controller
 {
@@ -28,6 +29,10 @@ class AdministratorController extends Controller
         });
     }
 
+    public function showDashboard()
+    {
+        return view('backend.dashboard');
+    }
     public function showManageUsers()
     {
         return view('backend.manage-users');
@@ -37,7 +42,7 @@ class AdministratorController extends Controller
     {
         return view('backend.fix-request');
     }
-    
+
     public function addTechnician(Request $request)
     {
         $rules = [

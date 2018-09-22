@@ -65,7 +65,7 @@ class LoginController extends Controller
         $credentials = ['email' => $request->input('email'), 'password' => $request->input('password')];
         if($this->guard()->attempt($credentials, $request->input('remember'))){
 
-            return redirect('/home');//should be dashboard for admin page
+            return redirect(route('admin.dashboard'));//should be dashboard for admin page
         }else{
             return back()->with('error', ResponseMessage::INVALID_LOGIN);
         }

@@ -42,6 +42,7 @@ Route::group(['prefix' => 'user/'], function(){
 
 Route::group(['namespace' => 'Administrator', 'prefix' => 'backend/'],function(){
 
+    Route::get('dashboard','AdministratorController@showDashboard')->name('admin.dashboard');
     Route::group(['prefix' => 'manage-users'], function(){
         Route::get('add', 'AdministratorController@showManageUsers')->name('admin.manage-users.show');
     });

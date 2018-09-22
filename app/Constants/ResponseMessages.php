@@ -2,7 +2,7 @@
 
 namespace billiard\Constants;
 
-class Responses
+class ResponseMessages
 {
     const GOODBYE = 'Goodbye';
     const INVALID_LOGIN = 'Invalid Login';
