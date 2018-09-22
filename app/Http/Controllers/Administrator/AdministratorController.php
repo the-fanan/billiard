@@ -28,11 +28,16 @@ class AdministratorController extends Controller
         });
     }
 
-    public function showAddTechnician()
+    public function showManageUsers()
     {
         return view('backend.manage-users');
     }
 
+    public function showFixRequest()
+    {
+        return view('backend.fix-request');
+    }
+    
     public function addTechnician(Request $request)
     {
         $rules = [
@@ -65,7 +70,7 @@ class AdministratorController extends Controller
         $user = $this->saveUser($data);
 
         //track action
-        action_trail::addAction(["action" => "add-technician", "admin" => $this->admin->id, "receiver" => $user->id]);
+        action_trail::addAction(["action" => "add-technician", "doer" => $this->admin->id, "receiver" => $user->id]);
 
         //send mail to user
         //$user::mailto bla bla bla
@@ -106,7 +111,7 @@ class AdministratorController extends Controller
         $user = $this->saveUser($data);
 
         //track action
-        action_trail::addAction(["action" => "add-reviewer", "admin" => $this->admin->id, "receiver" => $user->id]);
+        action_trail::addAction(["action" => "add-reviewer", "doer" => $this->admin->id, "receiver" => $user->id]);
 
         //send mail to user
         //$user::mailto bla bla bla
@@ -146,7 +151,47 @@ class AdministratorController extends Controller
         $user = $this->saveUser($data);
 
         //track action
-        action_trail::addAction(["action" => "add-customer", "admin" => $this->admin->id, "receiver" => $user->id]);
+        action_trail::addAction(["action" => "add-customer", "doer" => $this->admin->id, "receiver" => $user->id]);
+
+        //send mail to user
+        //$user::mailto bla bla bla
+        return response()->json([
+            'message' => "Customer has been created"
+        ],200);
+    }
+
+    public function addAdmin(Request $request)
+    {
+        $rules = [
+            'fullname' => 'required|max:100',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|confirmed|min:6'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            $error = $this->validationMessagesToString($validator->errors());
+            return response()->json([
+                'error' => $error
+            ],200);
+        }
+
+        $user = new administrator;
+        $organisation = $this->admin->organisation();
+        $role = "Admin";
+        $data = [
+            "fullname" => $request->fullname,
+            "email" => $request->email,
+            "password" => $request->password,
+            "organisation_id" => $organisation->id,
+            "user" => $user,
+            "role" => $role,
+        ];
+
+        $user = $this->saveUser($data);
+
+        //track action
+        action_trail::addAction(["action" => "add-admin", "doer" => $this->admin->id, "receiver" => $user->id]);
 
         //send mail to user
         //$user::mailto bla bla bla
@@ -183,6 +228,40 @@ class AdministratorController extends Controller
         user_attribute::insert([
             [
                 'user_id' => $user->id,
+                'attribute' => Constants::PROFILE_IMAGE,
+                'value' => Constants::DEFAULT_PROFILE_IMAGE,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
+        ]);
+        return $user;
+    }
+
+    /**
+    *Save a new admin
+    *
+    * @param $data ['fullname', 'email', 'password', 'organisation id','user', 'role']
+    *
+    * @return object
+    */
+    private function saveAdmin($data)
+    {
+        $modeldata = [
+            "fullname" => $data["fullname"],
+            "email" => $data["email"],
+            "password" => $data["password"],
+            "organisation_id" => $data["organisation_id"],
+            "status" => "pending"
+        ];
+        $role = $data["role"];
+        $user = $data["user"];
+        $user->fill($modeldata);
+        $user->save();
+        $user->assignRole($role);
+        //add default attributes
+        administrator_attribute::insert([
+            [
+                'admnistrator_id' => $user->id,
                 'attribute' => Constants::PROFILE_IMAGE,
                 'value' => Constants::DEFAULT_PROFILE_IMAGE,
                 'created_at' => now(),
